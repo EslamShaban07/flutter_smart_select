@@ -14,6 +14,7 @@ import 'model/group_sort.dart';
 import 'model/chosen.dart';
 import 'state/choices.dart';
 import 'state/filter.dart';
+
 // import 'state/selected.dart';
 // import 'state/selection.dart';
 import 'choices_resolver.dart';
@@ -1103,7 +1104,7 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
       autofocus: true,
       controller: filter.ctrl,
       style: modalHeaderStyle.textStyle,
-      cursorColor: modalConfig.isFullPage ? Colors.white : theme.cursorColor,
+      cursorColor: modalConfig.isFullPage ? Colors.white : theme.textSelectionTheme,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration.collapsed(
         hintText: modalConfig.filterHint ?? 'Search on $title',
@@ -1166,14 +1167,20 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           child: Padding(
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: FlatButton.icon(
+            child: TextButton.icon(
               icon: modalConfig.confirmIcon,
               label: modalConfig.confirmLabel,
-              color:
-                  modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
-              textColor: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white,
+              style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all(
+                    TextStyle(
+                      color: modalConfig.confirmIsLight
+                          ? modalConfig.confirmColor
+                          : Colors.white,
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    modalConfig.confirmIsDark ? modalConfig.confirmColor : null,
+                  )),
               onPressed: onPressed,
             ),
           ),
@@ -1183,14 +1190,21 @@ abstract class S2State<T> extends State<SmartSelect<T>> {
           child: Padding(
             padding: modalConfig.confirmMargin ??
                 const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            child: FlatButton(
+            child: TextButton(
               child: modalConfig.confirmLabel,
-              color: modalConfig.confirmIsDark
-                  ? modalConfig.confirmColor ?? Colors.blueGrey
-                  : null,
-              textColor: modalConfig.confirmIsLight
-                  ? modalConfig.confirmColor
-                  : Colors.white,
+              style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all(
+                    TextStyle(
+                      color: modalConfig.confirmIsLight
+                          ? modalConfig.confirmColor
+                          : Colors.white,
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    modalConfig.confirmIsDark
+                        ? modalConfig.confirmColor ?? Colors.blueGrey
+                        : null,
+                  )),
               onPressed: onPressed,
             ),
           ),
